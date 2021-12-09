@@ -1,7 +1,7 @@
 name: sembast_olmps
 version: 0.0.1
 description: An opinionated set of sembast utilities to be used out of the box
-homepage: https://github.com/olmps/sembast_olmps
+homepage: https://github.com/olmps/flutter_packages/tree/main/packages/sembast_olmps
 
 environment:
   sdk: ">=2.14.0 <3.0.0"
