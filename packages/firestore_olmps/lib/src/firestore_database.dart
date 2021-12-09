@@ -198,7 +198,7 @@ class FirestoreDatabase extends DocumentDatabase {
   }) =>
       FirestorePaginatedResult(
         _buildQuery(firestore.collection(collectionPath), filters: filters, sorts: sorts),
-        listen: listenToChanges,
+        listenToChanges: listenToChanges,
         pageSize: pageSize,
         deserialize: resultDeserializer,
       );
