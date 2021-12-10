@@ -1,0 +1,24 @@
+name: firebase_auth_olmps
+version: 0.0.1
+description: An opinionated set of firebase_auth utilities to be used out of the box
+homepage: https://github.com/olmps/flutter_packages/tree/main/packages/firebase_auth_olmps
+
+environment:
+  sdk: ">=2.14.0 <3.0.0"
+  flutter: 2.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  firebase_auth: 3.2.0
+
+  # Apple Social Auth
+  sign_in_with_apple: 3.3.0
+  crypto: ^3.0.1
+  
+  # Google Social Auth
+  google_sign_in: 5.2.1
+  
+  # Github Social Auth
+  github_sign_in: 0.0.5-dev.3
