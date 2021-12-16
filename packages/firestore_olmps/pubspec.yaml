@@ -1,0 +1,24 @@
+name: firestore_olmps
+version: 0.0.1
+description: An opinionated set of cloud_firestore utilities to be used out of the box
+homepage: https://github.com/olmps/flutter_packages/tree/main/packages/firestore_olmps
+
+environment:
+  sdk: ">=2.14.0 <3.0.0"
+  flutter: 2.5.3
+
+dependencies:
+  cloud_firestore: 3.1.0
+
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  # Declare as dev_dependency as it's only used for testing purposes.
+  firebase_core: 1.10.1
+
+  flutter_test:
+    sdk: flutter
+
+  integration_test:
+    sdk: flutter
