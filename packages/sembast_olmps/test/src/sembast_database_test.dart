@@ -264,7 +264,11 @@ void main() {
 
     setUpAll(() {
       TestWidgetsFlutterBinding.ensureInitialized();
-      MethodChannel('plugins.flutter.io/path_provider').setMockMethodCallHandler((_) async => fakePathProvider);
+      // TODO(matuella): not sure why need to all platforms channels, maybe because `path_provider` changed its plugin structure?
+      ['android', 'ios', 'linux', 'macos', 'windows'].forEach((platform) {
+        MethodChannel('plugins.flutter.io/path_provider_$platform')
+            .setMockMethodCallHandler((_) async => fakePathProvider);
+      });
     });
 
     setUp(() async {
@@ -314,6 +318,35 @@ void main() {
       );
 
       expect(hasCalledVersionCallback, isTrue, reason: 'Must call `onVersionChanged`');
+    });
+
+    test('should run changes when upgrading the schema', () async {
+      final fakeNewVersion = 11;
+      final db = await openDatabase(
+        dbName: fakeName,
+        schemaVersion: fakeFirstVersion,
+        factory: databaseFactoryMemory,
+      );
+
+      await db.put(id: 'fake', object: {'fake': 'fake'}, store: '');
+      await db.close();
+
+      final migratedDb = await openDatabase(
+        dbName: fakeName,
+        schemaVersion: fakeNewVersion,
+        onDatabaseCreation: (_, __) => fail('called `onDatabaseCreation`'),
+        onVersionChanged: (db, _, __) async {
+          final fakeStore = stringMapStoreFactory.store('');
+          final records = await fakeStore.count(db);
+          expect(records, 1);
+
+          await fakeStore.delete(db);
+        },
+        factory: databaseFactoryMemory,
+      );
+
+      final records = await migratedDb.getAll(store: '');
+      expect(records.length, 0);
     });
 
     test('should ignore callbacks when opening the database with the same last schema', () async {
