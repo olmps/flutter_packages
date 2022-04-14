@@ -4,15 +4,15 @@ description: An opinionated set of sembast utilities to be used out of the box
 homepage: https://github.com/olmps/flutter_packages/tree/main/packages/sembast_olmps
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
-  flutter: 2.5.3
+  sdk: ">=2.16.2 <3.0.0"
+  flutter: 2.10.4
 
 dependencies:
   flutter:
     sdk: flutter
 
-  sembast: 3.1.1
-  path_provider: 2.0.7
+  sembast: 3.2.0
+  path_provider: 2.0.9
 
 dev_dependencies:
   flutter_test:
