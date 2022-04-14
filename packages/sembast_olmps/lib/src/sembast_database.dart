@@ -225,14 +225,14 @@ Future<SembastDatabase> openDatabase({
   final db = await baseFactory.openDatabase(
     dbPath,
     version: schemaVersion,
-    onVersionChanged: (db, oldVersion, newVersion) {
+    onVersionChanged: (db, oldVersion, newVersion) async {
       // `oldVersion` is zero when running for the first time.
       if (oldVersion == 0) {
-        onDatabaseCreation?.call(db, newVersion);
+        await onDatabaseCreation?.call(db, newVersion);
         return;
       }
 
-      onVersionChanged?.call(db, oldVersion, newVersion);
+      await onVersionChanged?.call(db, oldVersion, newVersion);
     },
   );
 
