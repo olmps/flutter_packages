@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:sembast/sembast.dart' as sembast;
 import 'package:sembast/sembast_io.dart' as sembast_io;
+import 'package:sembast_web/sembast_web.dart' as sembast_web;
 
 import 'transaction_error.dart';
 
@@ -217,11 +219,10 @@ Future<SembastDatabase> openDatabase({
 }) async {
   assert(schemaVersion >= 1, '`schemaVersion` be a positive integer');
 
-  final dir = await path_provider.getApplicationDocumentsDirectory();
-  await dir.create(recursive: true);
-  final dbPath = path.join(dir.path, dbName);
-
-  final baseFactory = factory ?? sembast_io.databaseFactoryIo;
+  final defaultFactory =
+      kIsWeb ? sembast_web.databaseFactoryWeb : sembast_io.databaseFactoryIo;
+  final baseFactory = factory ?? defaultFactory;
+  final dbPath = await _getDatabasePath(dbName);
   final db = await baseFactory.openDatabase(
     dbPath,
     version: schemaVersion,
@@ -237,4 +238,14 @@ Future<SembastDatabase> openDatabase({
   );
 
   return SembastDatabaseImpl(db);
+}
+
+Future<String> _getDatabasePath(String dbName) async {
+  if (kIsWeb) {
+    return dbName;
+  } else {
+    final dir = await path_provider.getApplicationDocumentsDirectory();
+    await dir.create(recursive: true);
+    return path.join(dir.path, dbName);
+  }
 }
